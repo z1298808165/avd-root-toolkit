@@ -1,0 +1,21 @@
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Local scratch output from the scripts
+/logs/
+/out/
+/tmp/
+*.log
+
+# Downloaded binaries and patched images must never be committed
+*.apk
+*.zip
+*.img
+*.img.backup

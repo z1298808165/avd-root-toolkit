@@ -1,0 +1,4 @@
+# shellcheck 配置：https://www.shellcheck.net/wiki/ShellCheck-RC
+shell=bash
+severity=warning
+external-sources=true

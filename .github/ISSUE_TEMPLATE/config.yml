@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Android 13/14/15 上的 KernelSU
+    url: https://github.com/z1298808165/avd-root-toolkit/blob/main/docs/kernelsu-limits.md
+    about: 提交「KernelSU 在旧内核上加载失败」的 issue 之前请先读这篇。
+  - name: 部署与排错文档
+    url: https://github.com/z1298808165/avd-root-toolkit/blob/main/docs/troubleshooting.md
+    about: 常见报错的症状、原因与处理方式。

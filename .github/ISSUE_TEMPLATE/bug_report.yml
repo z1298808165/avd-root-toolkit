@@ -1,0 +1,76 @@
+name: 问题反馈
+description: 部署或 Root 流程中出现的异常
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请先运行 `avd-root.ps1 -Action doctor`（或 `avd-root.sh doctor`）并贴上输出，
+        体检报告能直接回答大部分环境问题。
+
+  - type: input
+    id: android
+    attributes:
+      label: Android 版本与 API Level
+      placeholder: Android 14 / API 34
+    validations:
+      required: true
+
+  - type: input
+    id: image
+    attributes:
+      label: 系统镜像
+      placeholder: system-images;android-34;google_apis;x86_64
+    validations:
+      required: true
+
+  - type: input
+    id: kernel
+    attributes:
+      label: 内核版本（`adb shell uname -r`）
+      placeholder: 6.1.23-android14-4-00257-g7e35917775b8-ab9964412
+    validations:
+      required: true
+
+  - type: dropdown
+    id: root
+    attributes:
+      label: Root 方式
+      options:
+        - Magisk
+        - KernelSU
+        - 还没决定
+    validations:
+      required: true
+
+  - type: input
+    id: host
+    attributes:
+      label: 宿主系统与模拟器版本
+      placeholder: Windows 11 22621 / emulator 37.2.13.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: action
+    attributes:
+      label: 出问题的 action
+      options: [doctor, install, create, start, root-magisk, root-kernelsu, zygisk-next, restore]
+    validations:
+      required: true
+
+  - type: textarea
+    id: expect
+    attributes:
+      label: 预期结果与实际结果
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 相关日志
+      description: 脚本输出，或 `adb logcat -b all | grep -iE 'ksuinit|kernelsu|magisk'`、模拟器 stdout。
+      render: text
+    validations:
+      required: false

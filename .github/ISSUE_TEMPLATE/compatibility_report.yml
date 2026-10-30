@@ -1,0 +1,36 @@
+name: 兼容性报告
+description: 报告某个 Android 版本 / 镜像 / Root 组合的实测结果
+labels: [compatibility]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        这些报告用来维护 [docs/compatibility.md](../blob/main/docs/compatibility.md)。
+        成功和失败都欢迎提交。
+
+  - type: input
+    id: combo
+    attributes:
+      label: 组合
+      placeholder: API 35 / google_apis / x86_64 / Magisk 31.1
+    validations:
+      required: true
+
+  - type: dropdown
+    id: result
+    attributes:
+      label: 结果
+      options:
+        - 可用
+        - 可用但有副作用
+        - 不可用
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: 详情
+      description: 内核版本、关键验证命令的输出、副作用与绕法。
+    validations:
+      required: true
