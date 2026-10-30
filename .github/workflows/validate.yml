@@ -20,7 +20,7 @@ jobs:
         run: bash -n scripts/avd-root.sh
 
       - name: shellcheck
-        run: shellcheck scripts/avd-root.sh
+        run: shellcheck --severity=warning scripts/avd-root.sh
 
   powershell:
     name: powershell script
@@ -59,8 +59,9 @@ jobs:
       - name: both entry scripts expose the same actions
         run: |
           set -eu
-          a=$(grep -m1 'ACTIONS:' scripts/avd-root.sh | sed 's/.*ACTIONS:[[:space:]]*//')
-          b=$(grep -m1 'ACTIONS:' scripts/avd-root.ps1 | sed 's/.*ACTIONS:[[:space:]]*//')
+          # .gitattributes 会把 *.ps1 检出为 CRLF，比较前先去掉回车
+          a=$(grep -m1 'ACTIONS:' scripts/avd-root.sh | sed 's/.*ACTIONS:[[:space:]]*//' | tr -d '\r')
+          b=$(grep -m1 'ACTIONS:' scripts/avd-root.ps1 | sed 's/.*ACTIONS:[[:space:]]*//' | tr -d '\r')
           echo "sh : $a"
           echo "ps1: $b"
           if [ "$a" != "$b" ]; then

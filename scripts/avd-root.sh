@@ -238,6 +238,14 @@ restart_emulator() {
   start_avd "$(resolve_avd_name)"
 }
 
+magisk_sqlite() {
+  # 在设备侧执行 SQL。$MAGISK 需要由设备的 shell 展开，因此这里对 $ 做转义。
+  local serial="$1" sql="$2" adb
+  adb="$(tool_path adb)"
+  "$adb" -s "$serial" shell \
+    "M=\$(command -v magisk || echo /debug_ramdisk/magisk); \$M --sqlite \"$sql\""
+}
+
 # ---------------------------------------------------------------------------
 # 下载
 # ---------------------------------------------------------------------------
@@ -614,13 +622,11 @@ EOS
   "$adb" -s "$serial" install -r "$apk" >/dev/null || warn "管理器安装失败，可稍后手动安装"
 
   info "启用 Zygisk"
-  "$adb" -s "$serial" shell \
-    'MAGISK=$(command -v magisk || echo /debug_ramdisk/magisk); $MAGISK --sqlite "REPLACE INTO settings (key,value) VALUES('"'"'zygisk'"'"',1)"' \
+  magisk_sqlite "$serial" "REPLACE INTO settings (key,value) VALUES('zygisk',1)" \
     >/dev/null 2>&1 || warn "Zygisk 开关写入失败"
 
   info "给 adb shell（uid 2000）预授权 superuser"
-  "$adb" -s "$serial" shell \
-    'MAGISK=$(command -v magisk || echo /debug_ramdisk/magisk); $MAGISK --sqlite "insert or replace into policies (uid,policy,until,logging,notification) values (2000,2,0,1,1)"' \
+  magisk_sqlite "$serial" "insert or replace into policies (uid,policy,until,logging,notification) values (2000,2,0,1,1)" \
     >/dev/null 2>&1 || warn "预授权写入失败"
 
   restart_emulator "$serial"
@@ -735,8 +741,7 @@ action_zygisk_next() {
     step "为 Magisk 启用内置 Zygisk"
     "$adb" -s "$serial" root >/dev/null 2>&1 || true
     sleep 4
-    "$adb" -s "$serial" shell \
-      'MAGISK=$(command -v magisk || echo /debug_ramdisk/magisk); $MAGISK --sqlite "REPLACE INTO settings (key,value) VALUES('"'"'zygisk'"'"',1)"' \
+    magisk_sqlite "$serial" "REPLACE INTO settings (key,value) VALUES('zygisk',1)" \
       >/dev/null 2>&1 || die "Zygisk 开关写入失败"
 
     restart_emulator "$serial"
