@@ -1,16 +1,20 @@
 # 兼容性矩阵
 
 本文记录「Android 版本 × 系统镜像 × Root 方式」的实际可用性。
-`✅ 实测通过`、`⚠️ 理论可行（未实测）`、`❌ 实测不可行`。
+
+- `✅ 实测通过`
+- `⚠️ 理论可行（未实测）`
+- `❌ 默认流程不可用`——不是绝对不能 Root，而是**不便捷**：需要自编译 `CONFIG_KSU=y` 的内核，
+  或改用 arm64 镜像（TCG 软件翻译，慢到不可日用）。
 
 ## 总表
 
 | Android | API | 镜像 tag | 内核 | Magisk | KernelSU | 备注 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 13 | 33 | `google_apis` | 5.15 | ✅ | ❌ | 5.15 与 6.1 同样缺 `EXTENDED_MODVERSIONS` |
-| 14 | 34 | `google_apis` | 6.1.23 | ✅ | ❌ | 本文档的基准环境 |
+| 13 | 33 | `google_apis` | 5.15 | ✅ | ❌ | 5.15 与 6.1 同样缺 `EXTENDED_MODVERSIONS`，需自编译内核 |
+| 14 | 34 | `google_apis` | 6.1.23 | ✅ | ❌ | 本文档的基准环境，需自编译内核 |
 | 15 | 35 | `google_apis` | 6.6 | ⚠️ | ❌ | 6.6 仍未引入扩展符号版本 |
-| 16 | 36 | `google_apis` | 6.12 | ⚠️ | ⚠️ | 6.12 起 KernelSU 有戏 |
+| 16 | 36 | `google_apis` | 6.12 | ⚠️ | ⚠️ | 6.12 起 KernelSU 开箱可用 |
 | 17 | 37 | `google_apis` | 6.12.81 | ⚠️ | ✅ | KernelSU 3.3.1 + Zygisk Next 1.5.2 |
 
 > **IMPORTANT**

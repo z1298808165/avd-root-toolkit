@@ -44,19 +44,20 @@ Android Studio 虚拟设备（AVD）部署 + Root 工具集：**Magisk / KernelS
 
 ## 支持矩阵
 
-`✅ 实测通过` / `⚠️ 理论可行（未实测）` / `❌ 实测不可行`
+`✅ 实测通过` / `⚠️ 理论可行（未实测）` / `❌ 默认流程不可用（需自编译内核）`
 
 | Android | API | 镜像示例 | 内核 | Magisk | KernelSU | 说明 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 13 | 33 | `system-images;android-33;google_apis;x86_64` | 5.15 | ✅ | ❌ | 5.15 内核与 6.1 同样缺 `EXTENDED_MODVERSIONS`，LKM 走不通 |
-| 14 | 34 | `system-images;android-34;google_apis;x86_64` | 6.1 | ✅ | ❌ | 本项目实测环境；KernelSU 失败原因见 [docs/kernelsu-limits.md](docs/kernelsu-limits.md) |
-| 15 | 35 | `system-images;android-35;google_apis;x86_64` | 6.6 | ⚠️ | ❌ | 6.6 仍无扩展符号版本，KernelSU 预期同样失败 |
-| 16 | 36 | `system-images;android-36;google_apis;x86_64` | 6.12 | ⚠️ | ⚠️ | 6.12 起支持扩展符号版本，KernelSU 预期可用 |
+| 13 | 33 | `system-images;android-33;google_apis;x86_64` | 5.15 | ✅ | ❌ | 5.15 与 6.1 同样缺 `EXTENDED_MODVERSIONS` |
+| 14 | 34 | `system-images;android-34;google_apis;x86_64` | 6.1 | ✅ | ❌ | 本项目实测环境；需自编译内核才能上 KernelSU |
+| 15 | 35 | `system-images;android-35;google_apis;x86_64` | 6.6 | ⚠️ | ❌ | 6.6 仍无扩展符号版本 |
+| 16 | 36 | `system-images;android-36;google_apis;x86_64` | 6.12 | ⚠️ | ⚠️ | 6.12 起支持扩展符号版本 |
 | 17 | 37 | `system-images;android-37.0;google_apis;x86_64` | 6.12 / 6.18 | ⚠️ | ✅ | 本项目实测：KernelSU 3.3.1 + Zygisk Next 1.5.2 |
 
-- 「❌」不是配置写错，而是**模拟器内核的客观限制**，详见 [docs/kernelsu-limits.md](docs/kernelsu-limits.md)。
+- 「❌」不是「绝对不能 Root」，而是**不便捷**：模拟器内核的客观限制让官方 LKM 无法加载，
+  要上 KernelSU 得自编译 `CONFIG_KSU=y` 的内核，详见 [docs/kernelsu-limits.md](docs/kernelsu-limits.md)。
 - KernelSU 官方 LKM 从 v3.3.x 起才提供 x86_64 版本；更早的版本只有 arm64，x86_64 AVD 无解。
-- 想让 Android 13/14/15 也用 KernelSU，只有两条路：自编译 `CONFIG_KSU=y` 的内核，或改用 arm64 镜像（TCG 软件翻译，慢到不可日用）。
+- arm64 镜像可以加载 6.1 的 arm64 LKM，但 x86_64 宿主机上只能走 TCG 软件翻译，慢到不可日用。
 
 ## 前置条件
 

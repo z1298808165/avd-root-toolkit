@@ -40,19 +40,19 @@ and a cure for the "SystemUI isn't responding" popups.
 
 ## Support Matrix
 
-`✅ verified` / `⚠️ expected, untested` / `❌ verified as impossible`
+`✅ verified` / `⚠️ expected, untested` / `❌ not with the default flow (needs a self-built kernel)`
 
 | Android | API | Image example | Kernel | Magisk | KernelSU | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
-| 13 | 33 | `system-images;android-33;google_apis;x86_64` | 5.15 | ✅ | ❌ | 5.15 lacks `EXTENDED_MODVERSIONS`, same LKM blocker |
-| 14 | 34 | `system-images;android-34;google_apis;x86_64` | 6.1 | ✅ | ❌ | Reference environment; see [docs/kernelsu-limits.md](docs/kernelsu-limits.md) |
+| 13 | 33 | `system-images;android-33;google_apis;x86_64` | 5.15 | ✅ | ❌ | 5.15 lacks `EXTENDED_MODVERSIONS` |
+| 14 | 34 | `system-images;android-34;google_apis;x86_64` | 6.1 | ✅ | ❌ | Reference environment; KernelSU needs a self-built kernel |
 | 15 | 35 | `system-images;android-35;google_apis;x86_64` | 6.6 | ⚠️ | ❌ | 6.6 still has no extended symbol versions |
 | 16 | 36 | `system-images;android-36;google_apis;x86_64` | 6.12 | ⚠️ | ⚠️ | 6.12 supports extended modversions |
 | 17 | 37 | `system-images;android-37.0;google_apis;x86_64` | 6.12 / 6.18 | ⚠️ | ✅ | KernelSU 3.3.1 + Zygisk Next 1.5.2 verified |
 
-KernelSU is not "broken by configuration" on API 33–35 — the emulator kernel genuinely cannot
-load the official x86_64 LKM. Workarounds are compiling a kernel with `CONFIG_KSU=y`,
-or using an arm64 image (TCG software translation, too slow for daily use).
+"❌" does not mean rooting is impossible — the emulator kernel simply cannot load the official x86_64
+LKM, so KernelSU requires a self-compiled kernel with `CONFIG_KSU=y`
+(see [docs/kernelsu-limits.md](docs/kernelsu-limits.md)), or an arm64 image running under TCG.
 
 ## Prerequisites
 
